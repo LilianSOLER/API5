@@ -1,0 +1,2 @@
+c1_moy_moy,878,c2_moy_moy,282
+c1_moy_moy_ecart_type,67,c2_moy_moy_ecart_type,27
