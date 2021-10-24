@@ -120,7 +120,6 @@ void lancer_mesures() {
 
   //unsigned int germe ;
   int T[100];
-  int N = 100;
   //int res;
 
   //printf("Valeur du germe pour la fonction de tirage aleatoire ? ") ;
@@ -136,44 +135,60 @@ void lancer_mesures() {
 	// assert(res==1);
   // } while (N<1 || N > NMAX) ;
 
-  long long int X = 100;
+  long long int X = 10000;
+  long long int N = 1000;
 
-  long long int c1_moy_array[X], c2_moy_array[X];
+  long long int c1_moy_array[X], c2_moy_array[X],c1_moy_moy_array[N], c2_moy_moy_array[N];
   long long int c1_moy = 0, c2_moy = 0;
-  
-  for(int i = 0; i < X; i++){
-    c1 = 0;
-    generation_aleatoire(T, N) ; /* initialisation du tableau T */
-    tri_insertion(T, N) ;	/* tri de T */
-    c1_moy += c1;
-    c1_moy_array[i] = c1;
+  for(N = 1; N < 1000; N++){
+    printf("N,%lld;", N);
+    for(int i = 0; i < X; i++){
+      c1 = 0;
+      generation_aleatoire(T, N) ; /* initialisation du tableau T */
+      tri_insertion(T, N) ;	/* tri de T */
+      c1_moy += c1;
+      c1_moy_array[i] = c1;
 
-    c2 = 0;
-    generation_aleatoire(T, N) ; /* initialisation du tableau T */
-    tri_segmentation(T, N) ;	/* tri de T */
-    c2_moy += c2;
-    c2_moy_array[i] = c2;
+      c2 = 0;
+      generation_aleatoire(T, N) ; /* initialisation du tableau T */
+      tri_segmentation(T, N) ;	/* tri de T */
+      c2_moy += c2;
+      c2_moy_array[i] = c2;
 
-    printf("%lld,%lld\n", c1, c2);
+      printf("c1,%lld,c2,%lld;", c1, c2);
+    }
+    printf("\n");
+
+    c1_moy /= X-1;
+    c1_moy_moy_array[N] = c1_moy;
+    long long int c1_variance = 0;
+    for(int k = 0; k < X; k++){
+      c1_variance += (long long int) pow(c1_moy_array[k] - c1_moy,2);
+    }
+    double c1_ecart_type = sqrt(c1_variance/X);
+
+    c2_moy /= X-1;
+    c2_moy_moy_array[N] = c2_moy;
+    long long int c2_variance = 0;
+    for(int k = 0; k < X; k++){
+      c2_variance += (long long int) pow(c2_moy_array[k] - c2_moy,2);
+    }
+    double c2_ecart_type = sqrt(c2_variance/X);
+    printf("c1_moy,%lld,c2_moy,%lld;",c1_moy, c2_moy);
+    printf("c1_ecart_type,%f,c2_ecart_type,%f\n",c1_ecart_type,c2_ecart_type);
   }
-
   printf("----\n");
-
-  c1_moy /= X;
-  long long int c1_variance = 0;
-  for(int k = 0; k < X; k++){
-    c1_variance += (long long int) pow(c1_moy_array[k] - c1_moy,2);
+  long long int c1_moy_moy = 0, c2_moy_moy = 0;
+  printf("RESULTAT GLOBALE\n");
+  for(int i = 1; i < 1000; i++){
+    printf("c1_moy_moy_array,%lld,c2_moy_moy_array,%lld;",c1_moy_moy_array[i], c2_moy_moy_array[i]);
+    c1_moy_moy += c1_moy_moy_array[i];
+    c2_moy_moy += c2_moy_moy_array[i];
   }
-  double c1_ecart_type = sqrt(c1_variance/X);
-
-  c2_moy /= X;
-  long long int c2_variance = 0;
-  for(int k = 0; k < X; k++){
-    c2_variance += (long long int) pow(c2_moy_array[k] - c2_moy,2);
-  }
-  double c2_ecart_type = sqrt(c2_variance/X);
-  printf("%lld,%lld\n",c1_moy, c2_moy);
-  printf("%f,%f\n",c1_ecart_type,c2_ecart_type);
+  printf("\n");
+  c1_moy_moy /= 999;
+  c2_moy_moy /= 999;
+  printf("c1_moy_moy,%lld,c2_moy_moy,%lld\n",c1_moy_moy, c2_moy_moy);
 
 
 
