@@ -135,13 +135,14 @@ void lancer_mesures() {
 	// assert(res==1);
   // } while (N<1 || N > NMAX) ;
 
-  long long int X = 10000;
-  long long int N = 1000;
+  long long int X = 100;
+  long long int N = 100;
 
+  long long int c1_moy_ecart_type[N], c2_moy_ecart_type[N];
   long long int c1_moy_array[X], c2_moy_array[X],c1_moy_moy_array[N], c2_moy_moy_array[N];
   long long int c1_moy = 0, c2_moy = 0;
-  for(N = 1; N < 1000; N++){
-    printf("N,%lld;", N);
+  for(N = 1; N < 100; N++){
+    //printf("%lld ", N);
     for(int i = 0; i < X; i++){
       c1 = 0;
       generation_aleatoire(T, N) ; /* initialisation du tableau T */
@@ -154,10 +155,9 @@ void lancer_mesures() {
       tri_segmentation(T, N) ;	/* tri de T */
       c2_moy += c2;
       c2_moy_array[i] = c2;
-
-      printf("c1,%lld,c2,%lld;", c1, c2);
+      //printf("c1,%lld,c2,%lld;", c1, c2);
     }
-    printf("\n");
+    //printf("\n");
 
     c1_moy /= X-1;
     c1_moy_moy_array[N] = c1_moy;
@@ -166,6 +166,7 @@ void lancer_mesures() {
       c1_variance += (long long int) pow(c1_moy_array[k] - c1_moy,2);
     }
     double c1_ecart_type = sqrt(c1_variance/X);
+    c1_moy_ecart_type[N] = c1_ecart_type;
 
     c2_moy /= X-1;
     c2_moy_moy_array[N] = c2_moy;
@@ -174,21 +175,29 @@ void lancer_mesures() {
       c2_variance += (long long int) pow(c2_moy_array[k] - c2_moy,2);
     }
     double c2_ecart_type = sqrt(c2_variance/X);
-    printf("c1_moy,%lld,c2_moy,%lld;",c1_moy, c2_moy);
-    printf("c1_ecart_type,%f,c2_ecart_type,%f\n",c1_ecart_type,c2_ecart_type);
+    c2_moy_ecart_type[N] = c2_ecart_type;
+    //printf("%lld\n",c2_moy);
+    //printf("c1_moy,%lld,c2_moy,%lld;",c1_moy, c2_moy);
+    //printf("c1_ecart_type,%f,c2_ecart_type,%f\n",c1_ecart_type,c2_ecart_type);
   }
-  printf("----\n");
+  //printf("----\n");
   long long int c1_moy_moy = 0, c2_moy_moy = 0;
-  printf("RESULTAT GLOBALE\n");
-  for(int i = 1; i < 1000; i++){
-    printf("c1_moy_moy_array,%lld,c2_moy_moy_array,%lld;",c1_moy_moy_array[i], c2_moy_moy_array[i]);
+  //printf("RESULTAT GLOBALE\n");
+  long long int c1_moy_moy_ecart_type = 0, c2_moy_moy_ecart_type = 0;
+  for(int i = 1; i < 100; i++){
+    //printf("c1_moy_moy_array,%lld,c2_moy_moy_array,%lld;",c1_moy_moy_array[i], c2_moy_moy_array[i]);
     c1_moy_moy += c1_moy_moy_array[i];
     c2_moy_moy += c2_moy_moy_array[i];
+    c1_moy_moy_ecart_type += c1_moy_ecart_type[i];
+    c2_moy_moy_ecart_type += c2_moy_ecart_type[i];
   }
-  printf("\n");
-  c1_moy_moy /= 999;
-  c2_moy_moy /= 999;
+  //printf("\n");
+  c1_moy_moy /= 99;
+  c2_moy_moy /= 99;
+  c1_moy_moy_ecart_type /= 99;
+  c2_moy_moy_ecart_type /= 99;
   printf("c1_moy_moy,%lld,c2_moy_moy,%lld\n",c1_moy_moy, c2_moy_moy);
+  printf("c1_moy_moy_ecart_type,%lld,c2_moy_moy_ecart_type,%lld\n",c1_moy_moy_ecart_type, c2_moy_moy_ecart_type);
 
 
 
