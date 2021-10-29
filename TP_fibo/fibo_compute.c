@@ -1,34 +1,5 @@
 #include "fibo_compute.h"
 
-matrice allouer_matrice(int l, int c) {
-    
-    matrice m = { 0, 0, NULL };
-    m.l = l;
-    m.c = c;
-    if (l>0 && c>0){
-        m.donnees = malloc (l*sizeof(unsigned long long int));
-        for (int i = 0; i<m.l; i++){
-            m.donnees[i] = malloc(c*sizeof(unsigned long long int));
-        }
-        
-    }
-    return m;
-}
-
-matrice mult(matrice m, matrice l,int n){
-	matrice res = allouer_matrice(n,n);
-	for(int i = 0; i < n; i++){
-		for(int j = 0; j < n; j++){
-			for(int k =0; k < n; k++){
-				res.donnees[i][j] += m.donnees[i][k]*l.donnees[k][j];
-			}
-		}
-	}
-	return res;
-}
-
-
-
 unsigned long long int fibo_rec(int n) {
 	if ( n<1){
 		return 4;
@@ -101,27 +72,43 @@ unsigned long long int fibo_golden(unsigned long long int n ){
 	return (1/rac_cinq)*(puissance(phi,n)-puissance(delta,n));
 }
 	
-void identity(matrice m,int n){
-	for(int i = 0; i < n ; i++){
-		for(int j = 0; j < n; j++){
-			if(i == j){
-				m.donnees[i][i] = 1;
-			} else {
-				m.donnees[i][j] = 0;
-			}
-		}
-	}
+
+matrice22 mult(matrice22 m, matrice22 l){
+	matrice22 res;
+	res.a = m.a*l.a + m.b*l.b;
+	res.b = m.a*l.b + m.b*l.a;
+	res.c = m.c*l.a + m.d*l.b;
+	res.d = m.c*l.b + m.d*l.a;
+	return res;
 }
-matrice puissancem (matrice m,unsigned long long int n){
-	matrice res = allouer_matrice(2,2);
-	identity(res,2);
-	while(n>0){
-		if (n%2 == 1){
-			res = mult(res,m,2);
-			n--;
-		}
-		m = mult(m,m,2);		
-		n /= 2;
+
+matrice21 mult_dif(matrice22 m, matrice21 l){
+	matrice21 res;
+	res.a = m.a*l.a + m.b*l.b;
+	res.b = m.c*l.a + m.d*l.b;
+	return res;
+}
+
+matrice22 puissancem (matrice22 m,unsigned long long int n){
+	matrice22 res = m;
+	if(n==1){
+		return m;
+	}
+	else if (n%2==0){
+		return puissancem(mult(m,m),n/2);
+	}
+	else {
+		return mult(m,puissancem(mult(m,m),(n-1)/2));
 	}
 	return res;
+	}
+
+	matrice21 fibo_matrice(unsigned long long int n){
+		matrice21 a,b;
+		matrice22 c,d;
+		c.a = 0; c.b = 1; c.c = 1; c.d = 1;
+		a.a = 0 ; a.b = 1;
+		d = puissancem(c,n-1);
+		b = mult_dif(d,a);
+		return b;
 	}

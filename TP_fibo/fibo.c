@@ -59,23 +59,12 @@ int main(int argc, const char* argv[]) {
 	printf("k = %llu ",k);
 	printf(": %f mseconds rec2\n", (double)(tac3 - tic3)*10000 / CLOCKS_PER_SEC);
 
-	//plus d'une seconde à partir de 152000000 environ
-	//complexité en O de n
 
 	printf("%f puissance %llu  = %llu \n", 2.0f, (unsigned long long int) 10, puissance(2.0f, (unsigned long long int)10));
 
-	//complexité en O de log(n)
 
 	printf("fibo_golden %llu  = %llu \n",(unsigned long long int) 100, fibo_golden((unsigned long long int)100));
 	printf("fibo_iter (%d) = %llu \n ",100, fibo_iter((unsigned long long int) 100));
-	//complexite en grand O de log
-
-	matrice m = allouer_matrice(2,2);
-		m.donnees[0][0]=0;
-		m.donnees[0][1]=1;
-		m.donnees[1][1]=1;
-		m.donnees[1][0]=1;
+	
 		return 0;
 }
-//
-//on change int en unsigned long long int pour avoir de tres grandes valeurs
