@@ -5,6 +5,7 @@
 #include "huffman_code.h"
 #include <assert.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
     int tab[256];
@@ -17,15 +18,19 @@ void ConstruireTableOcc(FILE *fichier, TableOcc_t *TableOcc) {
     int c;
 
     /* A COMPLETER ... */
-    printf("Programme non realise (ConstruireTableOcc)\n");
+    printf("Programme realise (ConstruireTableOcc)\n");
 
-    c = fgetc(fichier);
-    while (c != EOF) {
-        /* A COMPLETER ... */
-        c = fgetc(fichier);
-    };
-
-
+   //Reserver la memoire pour la table d'occurence    
+    TableOcc = (TableOcc_t*) malloc(sizeof(TableOcc_t));
+    //Initialiser la table d'occurence a zero
+    for (int i = 0; i < 256; i++) {
+        TableOcc->tab[i] = 0;
+    }
+    //Compte le nombre d'occurence de chaque caractere
+    while ((c = fgetc(fichier)) != EOF) {
+        TableOcc->tab[c]++;
+    }
+    
     int i;
     for (i = 0; i < 256; i++) {
         if (TableOcc->tab[i] != 0)
