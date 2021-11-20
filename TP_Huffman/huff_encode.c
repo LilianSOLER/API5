@@ -31,18 +31,26 @@ void ConstruireTableOcc(FILE *fichier, TableOcc_t *TableOcc) {
         TableOcc->tab[c]++;
     }
     
-    int i;
-    for (i = 0; i < 256; i++) {
+    for (int i = 0; i < 256; i++) {
         if (TableOcc->tab[i] != 0)
             printf("Occurences du caractere %c (code %d) : %d\n", i, i,
-                   TableOcc->tab[i]);
+                TableOcc->tab[i]);
     }
 }
 
 fap InitHuffman(TableOcc_t *TableOcc) {
     /* A COMPLETER */
-    printf("Programme non realise (InitHuffman)\n");
-    return NULL;
+    printf("Programme realise (InitHuffman)\n");
+    
+    fap F = creer_fap_vide();
+    Arbre tmp;
+    for (int i = 0; i < 256; i++) {
+        if (TableOcc->tab[i] != 0) {
+            tmp = NouveauNoeud(ArbreVide(), (Element) i, ArbreVide());
+            F = inserer(F, tmp, TableOcc->tab[i]);
+        }
+    }
+    return F;
 }
 
 Arbre ConstruireArbre(fap file) {
